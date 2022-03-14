@@ -38,11 +38,17 @@ macho<- c(140.9,121.7,173.8,154.5,109.2,150.7,203.3,163.0,137.7,173.9,177.4
 ,154.8,177.5,153.4,138.7,136.7,165.3,126.7,118.9,140.0,192.7,134.4,175.0 
 ,169.8,153.9,176.7,150.0)
 
+hembraOrdenado<- sort(hembra);hembraOrdenado
+machoOrdenado<- sort(macho);machoOrdenado
+
 par(mfrow=c(1,2)) 
 
-hist(hembra,main = "Langostinos hembras", ylab = "Frecuencia",breaks=5, freq=FALSE,col = "lightblue")
-hist(macho, main = "Langostinos machos", ylab = "Frecuencia",breaks=5, freq=FALSE,col = "lightblue")
+hist(hembra,breaks =seq(166.8,210.8, by=8.8),main = "Langostinos hembras", ylab = "Frecuencia", freq=FALSE,col = "lightblue")
+hist(macho, breaks =seq(109.2,203.3, by=18.82),main = "Langostinos machos", ylab = "Frecuencia", freq=FALSE,col = "lightblue")
 ```
+Distribución de los datos para las hembras: los datos de la hembra determinan una distribución Normal ya que se comprueba mas adelante que los datos son normales con el KS.TEST(), resulto un resultado de P mayor a: 0.05, con un coeficiente de asimetria negativo ya que tiene una cola hacia la izquierda. Apreciando que es mas empinada a partir de los intervalos (175-193), se puede decir que es Leptocurtica
+
+Distribución de los datos para los machoss: los datos del macho determinan una distribución N , con un coeficiente de asimetria positivo ya que tiene una cola hacia la derecha. Apreciando que no es tan empinada como el anterior histograma pero tampoco es tan achatada como la platicurtica, se puede decir que es Mesocurtica.
 
 b. Hallar el promedio y la desviación estándar para cada sexo. ¿Qué puede concluir? 
 
@@ -63,6 +69,7 @@ El tamaño de los langostinos hembra se desvía de la media aproximadamente  9.8
 c. Halle un intervalo para la media del Largo total por sexo con un nivel de confianza del 97%. Provea la interpretación respectiva. 
 
 ```{r }
+
 #Datos hembras
 numeroHembras <-27
 EHembras <-(desvHembra/sqrt(numeroHembras))
@@ -96,6 +103,14 @@ El tamaño del largo de los langostinos hembra,los datos se encuentran mas dispe
 En el diagrama de los machos podemos diferenciar que los datos se encuentras mas dispersos comparando al diagrama de las hembras, tomando como referencia 50% hasta el 75%, tambien se observa la inexistencia de datos atipicos.
 
 e. comprobar la normalidad de los datos
+
+```{r }
+ks.test(hembra,pnorm,mediaHembra, desvHembra)
+
+qqplot(hembraOrdenado, pch=20, ylab='Peso (Kg)',
+       main='QQplot para peso de hombres')
+
+```
 
 2.En un restaurante de la ciudad se sabe que la probabilidad de que se reciba un billete de $50.000 falso es de 0.015. Si se sabe que en una semana se reciben pagos con 900 billetes de $50.000, halle la probabilidad de que: 
 
@@ -168,3 +183,61 @@ polygon(c(longitudCX[longitudCX >= 10 ], 10),c(probabilidadCgrafica[longitudCX >
         col = "slateblue1",
         border = 1)
 ```
+3.  Según un estudio del Departamento Nacional de Estadística -DANE-, la vida media para el quinquenio de 2010 a 2015 de los habitantes de Colombia es 76 años, con una varianza de 25. Se pretende hacer un estudio con el objetivo de extrapolar los resultados anteriores a una pequeña ciudad de 100.000 habitantes, considerando que el tiempo de sobrevida es normal.
+
+a. ¿Cuántos de los habitantes de la pequeña ciudad superarán previsiblemente los 92 años?
+
+```{r }
+media<- 76
+desv<- 5
+n<- 100.000
+longitudX<-c(50:100)
+probabilidadPA<- 1-( pnorm (91, media, desv));probabilidadPA
+
+#Habitantes que superan previsiblemente los 92 años
+respuesta<-(probabilidadPA*n);respuesta
+
+probabilidadDN<- dnorm(longitudX,media, desv)
+
+#grafica
+plot(longitudX,probabilidadDN,
+xlab="Edad de los habitantes",
+ylab="Probabilidad",
+title("Distribucion normal (media = 76, desv = 5)"),
+pch=16,
+col = "cornflowerblue")
+
+#colorear el area bajo la curva
+polygon(c(longitudX[longitudX >= 92 ], 92),c(probabilidadDN[longitudX >= 92], 0),
+        col = "slateblue1",
+        border = 1)
+```
+Respuesta: El numero de habitantes que superan previsiblemente los 92 años es de:  0.1349898
+
+b. ¿Cuántos vivirán menos de 55 años o más de 75 años?
+
+```{r }
+probabilidadPB<-( pnorm (55, media, desv))+(1-(pnorm (74, media, desv)));probabilidadPB
+respuesta<- probabilidadPB*n;respuesta
+
+longitud<-c(50:100)
+probabilidad<- dnorm(longitud,media, desv)
+
+#grafica
+plot(longitud,probabilidad,
+xlab="Edad de los habitantes",
+ylab="Probabilidad",
+title("Distribucion normal (media = 76, desv = 5)"),
+pch=16,
+col = "cornflowerblue")
+
+polygon(c(longitud[longitud >= 75 ], 75),c(probabilidad[longitud >= 75], 0),
+        col = "slateblue1",
+        border = 1)
+
+polygon(c(longitud[longitud <= 55 ], 55),c(probabilidad[longitud <= 55], 0),
+        col = "slateblue1",
+        border = 1)
+
+```
+Respuesta: El numero de habitantes que viviran menos de 55 años o más de 75 años es de: 65.54351
