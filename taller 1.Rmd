@@ -77,23 +77,94 @@ margenE <- 2.17*EMachos
 limInferiorMachos <-mediaMacho-margenE
 limSuperiorMachos <-mediaMacho+margenE
 ```
-(Interpretacion)
+
 Con base a un intervalo de confianza del 0,97 de certeza se puede afirmar que el tamaño de los Langostinos hembra, fluctua entre 184.961 y 193.172, y el de los Langostinos macho varia entre 144.83 y 164.098.
 
 d. Construya un Boxplot por sexo e interprételo.
 
 ```{r }
 #Hembras
-boxplot(hembra, horizontal = TRUE, main = "", 
-     xlab = "Nivel educativo", ylab = "Edad")
+boxplot(hembra, horizontal = TRUE, main = "Diagrama de cajas y bigotes Hembra", 
+     xlab = "Tamaño (Largo en mm)", ylab = "Sexo (Hembra)")
 
 #Machos
-boxplot(macho, horizontal = TRUE, main = "", 
-     xlab = "Nivel educativo", ylab = "Edad")
+boxplot(macho, horizontal = TRUE, main = "Diagrama de cajas y bigotes Macho", 
+     xlab = "Tamaño (Largo en mm)", ylab = "Sexo (Macho)")
 ```
-(Interpretacion)
+
 El tamaño del largo de los langostinos hembra,los datos se encuentran mas dispersos a partir del cuartil 2, que hace referencia al 50% hasta el 75%, ademas se puede observar que no hay datos atipicos.
 En el diagrama de los machos podemos diferenciar que los datos se encuentras mas dispersos comparando al diagrama de las hembras, tomando como referencia 50% hasta el 75%, tambien se observa la inexistencia de datos atipicos.
 
 e. comprobar la normalidad de los datos
 
+2.En un restaurante de la ciudad se sabe que la probabilidad de que se reciba un billete de $50.000 falso es de 0.015. Si se sabe que en una semana se reciben pagos con 900 billetes de $50.000, halle la probabilidad de que: 
+
+a. A lo sumo 25 billetes sean falsos.
+```{r }
+## x= Numero de billetesde 50.000 falsos
+n<-900
+p <- 0.015
+q <- 1-p
+
+probabilidadA<- pbinom(25,n,p);probabilidadA
+
+longitudX<-c(0:50)
+probabilidadAgrafica<-dbinom(0:50,900,0.015)
+
+#grafica
+plot(longitudX,probabilidadAgrafica,
+xlab="Numero de billetes falsos",
+ylab="Probabilidad",
+title("Distribucion binomial (n=900, p=0.015)"),
+pch=16,
+col = "cornflowerblue")
+
+#colorear el area bajo la curva
+polygon(c(longitudX[longitudX <= 25 ], 25),c(probabilidadAgrafica[longitudX <= 25 ], 0),
+        col = "slateblue1",
+        border = 1)
+```
+
+b. La cantidad de billetes falsos esté entre 20 y 30.
+
+```{r }
+probabilidadB<- pbinom(30,n,p) - pbinom(19,n,p);probabilidadB
+
+longitudBX<-c(0:50)
+probabilidadBgrafica<-dbinom(0:50,900,0.015)
+
+#grafica
+plot(longitudBX,probabilidadBgrafica,
+xlab="Numero de billetes falsos",
+ylab="Probabilidad",
+title("Distribucion binomial (n=900, p=0.015)"),
+pch=16,
+col = "cornflowerblue")
+
+#colorear el area bajo la curva
+
+i <- longitudBX >= 20 & longitudBX <= 30
+polygon(c(20,longitudBX[i],30), c(0,probabilidadBgrafica[i],0), col="slateblue1")
+```
+c. Más de 10 sean falsos.
+
+```{r }
+probabilidadC<- 1-(pbinom(9,n,p));probabilidadC
+##probabilidadC<- pbinom(10,n,p,lower.tail = FALSE);probabilidadC
+
+longitudCX<-c(0:50)
+probabilidadCgrafica<-dbinom(0:50,900,0.015)
+
+#grafica
+plot(longitudCX,probabilidadCgrafica,
+xlab="Numero de billetes falsos",
+ylab="Probabilidad",
+title("Distribucion binomial (n=900, p=0.015)"),
+pch=16,
+col = "cornflowerblue")
+
+#colorear el area bajo la curva
+polygon(c(longitudCX[longitudCX >= 10 ], 10),c(probabilidadCgrafica[longitudCX >= 10], 0),
+        col = "slateblue1",
+        border = 1)
+```
