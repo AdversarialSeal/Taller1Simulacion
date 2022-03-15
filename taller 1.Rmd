@@ -44,11 +44,16 @@ machoOrdenado<- sort(macho);machoOrdenado
 hist(hembra,breaks =seq(166.8,210.8, by=8.8),main = "Langostinos hembras", 
      xlab = "Tamaño (Largo total mm) de hembras", ylab = "Frecuencia", 
      freq=TRUE,col = "lightblue")
+```
+
+Distribución de los datos para las hembras: los datos de la hembra determinan una distribución Normal ya que en el histograma se parece un poco a una campana, tambien se puede apreciar que tiene un coeficiente de asimetria negativo ya que tiene una cola hacia la izquierda y como no es tan empinada para decir que es leptocurtica, solo sube un poco en el centro pero tambien se extiende suave hacia la derecha e izquierda, se puede decir que es mesocurtica.
+
+
+```{r }
 hist(macho, breaks =seq(109.2,203.3, by=18.82),main = "Langostinos machos", 
      xlab = "Tamaño (Largo total mm) de machos",ylab = "Frecuencia", 
      freq=TRUE,col = "lightblue")
 ```
-Distribución de los datos para las hembras: los datos de la hembra determinan una distribución Normal ya que en el histograma se parece un poco a una campana, tambien se puede apreciar que tiene un coeficiente de asimetria negativo ya que tiene una cola hacia la izquierda y como no es tan empinada para decir que es leptocurtica, solo sube un poco en el centro pero tambien se extiende suave hacia la derecha e izquierda, se puede decir que es mesocurtica.
 
 Distribución de los datos para los machoss: los datos del macho determinan una distribución normal, ya que esta refleja mas que la anterior una distribucion normal tiene mas forma de campana, tambien cuenta con un coeficiente de asimetria positivo ya que tiene una cola hacia la derecha. A partir de este histograma se puede decir que tiene curtosis mesocurtica ya que no es muy alta pero tampoco es tan achatada como la platicurtica.
 
