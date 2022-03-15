@@ -12,9 +12,7 @@ knitr::opts_chunk$set(echo = TRUE)
 1.	Al comparar los caracteres morfométricos de una especie de langostinos de gran importancia económica en Argentina se observaron diferencias de tamaño entre macho y hembra. En la siguiente tabla se presentan los datos (Largo total mm) de las morfometrías de machos y hembras obtenidos en diferentes recolectas (Ruiz & Mendia, 2008). 
 
 
-Table: Tabla #1
-
- Hembras |		|	|Machos|	|	| |	
+ Hembras |		|	| | Machos|	| |	
 ---------|---------|---------|---------|----------|----------|---------|
 183.2  | 182.5 | 166.8 |    |140.9 | 173.9 | 118.9 |
 184.1  | 190.0 | 196.3 |    |121.7 | 177.4 | 140.0 |
@@ -25,7 +23,7 @@ Table: Tabla #1
 188.3  | 189.2 | 195.5 |    |203.3 | 136.7 | 153.9 |
 186.8  | 189.1 | 202.4 |    |163.0 | 165.3 | 176.7 |
 202.2  | 203.1 | 210.8 |    |137.7 | 126.7 | 150.0 |
-
+                     Tabla 1.Tamaño (Largo total mm) de langostinos macho y hembra
 
 a. Haga un histograma con cinco clases y determine la distribución de los datos para cada sexo. Explique acerca de la distribución del tamaño para cada género.
 
@@ -41,22 +39,27 @@ macho<- c(140.9,121.7,173.8,154.5,109.2,150.7,203.3,163.0,137.7,173.9,177.4
 hembraOrdenado<- sort(hembra);hembraOrdenado
 machoOrdenado<- sort(macho);machoOrdenado
 
-par(mfrow=c(1,2)) 
+#par(mfrow=c(1,2)) 
 
-hist(hembra,breaks =seq(166.8,210.8, by=8.8),main = "Langostinos hembras", ylab = "Frecuencia", freq=FALSE,col = "lightblue")
-hist(macho, breaks =seq(109.2,203.3, by=18.82),main = "Langostinos machos", ylab = "Frecuencia", freq=FALSE,col = "lightblue")
+hist(hembra,breaks =seq(166.8,210.8, by=8.8),main = "Langostinos hembras", 
+     xlab = "Tamaño (Largo total mm) de hembras", ylab = "Frecuencia", 
+     freq=TRUE,col = "lightblue")
+hist(macho, breaks =seq(109.2,203.3, by=18.82),main = "Langostinos machos", 
+     xlab = "Tamaño (Largo total mm) de machos",ylab = "Frecuencia", 
+     freq=TRUE,col = "lightblue")
 ```
-Distribución de los datos para las hembras: los datos de la hembra determinan una distribución Normal ya que se comprueba mas adelante que los datos son normales con el KS.TEST(), resulto un resultado de P mayor a: 0.05, con un coeficiente de asimetria negativo ya que tiene una cola hacia la izquierda. Apreciando que es mas empinada a partir de los intervalos (175-193), se puede decir que es Leptocurtica
+Distribución de los datos para las hembras: los datos de la hembra determinan una distribución Normal ya que en el histograma se parece un poco a una campana, tambien se puede apreciar que tiene un coeficiente de asimetria negativo ya que tiene una cola hacia la izquierda y como no es tan empinada para decir que es leptocurtica, solo sube un poco en el centro pero tambien se extiende suave hacia la derecha e izquierda, se puede decir que es mesocurtica.
 
-Distribución de los datos para los machoss: los datos del macho determinan una distribución N , con un coeficiente de asimetria positivo ya que tiene una cola hacia la derecha. Apreciando que no es tan empinada como el anterior histograma pero tampoco es tan achatada como la platicurtica, se puede decir que es Mesocurtica.
+Distribución de los datos para los machoss: los datos del macho determinan una distribución normal, ya que esta refleja mas que la anterior una distribucion normal tiene mas forma de campana, tambien cuenta con un coeficiente de asimetria positivo ya que tiene una cola hacia la derecha. A partir de este histograma se puede decir que tiene curtosis mesocurtica ya que no es muy alta pero tampoco es tan achatada como la platicurtica.
 
 b. Hallar el promedio y la desviación estándar para cada sexo. ¿Qué puede concluir? 
 
 ```{r }
-
+#Media y desviacion estandar de las hembras
 mediaHembra<-mean(hembra);mediaHembra
 desvHembra <-sd(hembra);desvHembra
 
+#Media y desviacion estandar de los machos
 mediaMacho<-mean(macho);mediaMacho
 desvMacho<-sd(macho);desvMacho
 
@@ -74,49 +77,63 @@ c. Halle un intervalo para la media del Largo total por sexo con un nivel de con
 numeroHembras <-27
 EHembras <-(desvHembra/sqrt(numeroHembras))
 margenE <- 2.17*EHembras 
-limInferiorHembras <-mediaHembra-margenE
-limSuperiorHembras <-mediaHembra+margenE
+limInferiorHembras <-mediaHembra-margenE;limInferiorHembras
+limSuperiorHembras <-mediaHembra+margenE;limSuperiorHembras
 
 #Datos machos
 numeroMachos <-27
 EMachos <-(desvMacho/sqrt(numeroMachos))
 margenE <- 2.17*EMachos
-limInferiorMachos <-mediaMacho-margenE
-limSuperiorMachos <-mediaMacho+margenE
+limInferiorMachos <-mediaMacho-margenE;limInferiorMachos
+limSuperiorMachos <-mediaMacho+margenE;limSuperiorMachos
 ```
 
-Con base a un intervalo de confianza del 0,97 de certeza se puede afirmar que el tamaño de los Langostinos hembra, fluctua entre 184.961 y 193.172, y el de los Langostinos macho varia entre 144.83 y 164.098.
+Con base a un intervalo de confianza del 0,97 de certeza se puede afirmar que el tamaño de los Langostinos hembra, fluctua entre 184.961 y 193.1723, y el de los Langostinos macho varia entre 144.8345 y 164.0988.
 
 d. Construya un Boxplot por sexo e interprételo.
 
 ```{r }
 #Hembras
 boxplot(hembra, horizontal = TRUE, main = "Diagrama de cajas y bigotes Hembra", 
-     xlab = "Tamaño (Largo en mm)", ylab = "Sexo (Hembra)")
+     xlab = "Tamaño (Largo en mm)", ylab = "Sexo (Hembra)",col = "lightblue")
+```
+Analizando los tamaño del largo de los langostinos hembra en la grafica dada,los datos se encuentran mas dispersos a partir del cuartil 2, que hace referencia al 50% hasta el 75%.
 
+```{r }
 #Machos
 boxplot(macho, horizontal = TRUE, main = "Diagrama de cajas y bigotes Macho", 
-     xlab = "Tamaño (Largo en mm)", ylab = "Sexo (Macho)")
+     xlab = "Tamaño (Largo en mm)", ylab = "Sexo (Macho)",col = "lightblue")
 ```
-
-El tamaño del largo de los langostinos hembra,los datos se encuentran mas dispersos a partir del cuartil 2, que hace referencia al 50% hasta el 75%, ademas se puede observar que no hay datos atipicos.
-En el diagrama de los machos podemos diferenciar que los datos se encuentras mas dispersos comparando al diagrama de las hembras, tomando como referencia 50% hasta el 75%, tambien se observa la inexistencia de datos atipicos.
+En el diagrama de los machos podemos diferenciar que los datos se encuentran mucho mas dispersos en comparacion con el diagrama de las hembras, tomando como referencia 50% hasta el 75%.
 
 e. comprobar la normalidad de los datos
 
 ```{r }
-ks.test(hembra,pnorm,mediaHembra, desvHembra)
+#Normalidad de los datos de la hembra
+ks.test(hembra,pnorm,mediaHembra,desvHembra)
 
-qqplot(hembraOrdenado, pch=20, ylab='Peso (Kg)',
-       main='QQplot para peso de hombres')
+qqnorm(hembra, main = "Normalidad de los datos de la hembra",
+       xlab = "Cuantiles teóricos", ylab = "Muestra de cuantiles",
+       plot.it = TRUE)
+qqline(hembra)
 
+
+#Normalidad de los datos del macho
+ks.test(macho,pnorm,mediaMacho,desvMacho)
+
+qqnorm(macho, main = "Normalidad de los datos del macho",
+       xlab = "Cuantiles teóricos", ylab = "Muestra de cuantiles",
+       plot.it = TRUE)
+qqline(macho)
 ```
+la pruba de hipotesis de normalidad aplicada a la hembra y el macho, el p-value resulto ser mucho mayor que el nivel de significancia que es 0.03, entonces por este lado todo indica que los datos de la hembra y macho siguen una distribucion normal.Cuando graficamos con qqnorm pudimos ver que los datos de ambos sexos no estan tan alejados de la linea de referencia por lo tanto refleja que los datos pertenecen a una distribucion normal.
+
+
 
 2.En un restaurante de la ciudad se sabe que la probabilidad de que se reciba un billete de $50.000 falso es de 0.015. Si se sabe que en una semana se reciben pagos con 900 billetes de $50.000, halle la probabilidad de que: 
 
 a. A lo sumo 25 billetes sean falsos.
 ```{r }
-## x= Numero de billetesde 50.000 falsos
 n<-900
 p <- 0.015
 q <- 1-p
@@ -127,10 +144,9 @@ longitudX<-c(0:50)
 probabilidadAgrafica<-dbinom(0:50,900,0.015)
 
 #grafica
-plot(longitudX,probabilidadAgrafica,
+plot(longitudX,probabilidadAgrafica, main="Distribucion binomial (n=900, p=0.015)",
 xlab="Numero de billetes falsos",
 ylab="Probabilidad",
-title("Distribucion binomial (n=900, p=0.015)"),
 pch=16,
 col = "cornflowerblue")
 
@@ -139,6 +155,8 @@ polygon(c(longitudX[longitudX <= 25 ], 25),c(probabilidadAgrafica[longitudX <= 2
         col = "slateblue1",
         border = 1)
 ```
+Respuesta: La probabilidad de que a lo maximo 25 de los 900 billetes sean falsos en el restaurante es de 0.9985199
+
 
 b. La cantidad de billetes falsos esté entre 20 y 30.
 
@@ -149,10 +167,9 @@ longitudBX<-c(0:50)
 probabilidadBgrafica<-dbinom(0:50,900,0.015)
 
 #grafica
-plot(longitudBX,probabilidadBgrafica,
+plot(longitudBX,probabilidadBgrafica,main="Distribucion binomial (n=900, p=0.015)",
 xlab="Numero de billetes falsos",
 ylab="Probabilidad",
-title("Distribucion binomial (n=900, p=0.015)"),
 pch=16,
 col = "cornflowerblue")
 
@@ -161,6 +178,8 @@ col = "cornflowerblue")
 i <- longitudBX >= 20 & longitudBX <= 30
 polygon(c(20,longitudBX[i],30), c(0,probabilidadBgrafica[i],0), col="slateblue1")
 ```
+Respuesta: La probabilidad de que el numero de billetes falsos en el restaurante este entre 20 y 30 es de 0.05644795
+
 c. Más de 10 sean falsos.
 
 ```{r }
@@ -171,10 +190,9 @@ longitudCX<-c(0:50)
 probabilidadCgrafica<-dbinom(0:50,900,0.015)
 
 #grafica
-plot(longitudCX,probabilidadCgrafica,
+plot(longitudCX,probabilidadCgrafica,main="Distribucion binomial (n=900, p=0.015)",
 xlab="Numero de billetes falsos",
 ylab="Probabilidad",
-title("Distribucion binomial (n=900, p=0.015)"),
 pch=16,
 col = "cornflowerblue")
 
@@ -183,6 +201,8 @@ polygon(c(longitudCX[longitudCX >= 10 ], 10),c(probabilidadCgrafica[longitudCX >
         col = "slateblue1",
         border = 1)
 ```
+Respuesta: La probabilidad de que mas de 10 billetes en el restaurante sean falsos es de 0.8666443
+
 3.  Según un estudio del Departamento Nacional de Estadística -DANE-, la vida media para el quinquenio de 2010 a 2015 de los habitantes de Colombia es 76 años, con una varianza de 25. Se pretende hacer un estudio con el objetivo de extrapolar los resultados anteriores a una pequeña ciudad de 100.000 habitantes, considerando que el tiempo de sobrevida es normal.
 
 a. ¿Cuántos de los habitantes de la pequeña ciudad superarán previsiblemente los 92 años?
@@ -200,10 +220,9 @@ respuesta<-(probabilidadPA*n);respuesta
 probabilidadDN<- dnorm(longitudX,media, desv)
 
 #grafica
-plot(longitudX,probabilidadDN,
+plot(longitudX,probabilidadDN,main="Distribucion normal (Media = 76, desv = 5)",
 xlab="Edad de los habitantes",
 ylab="Probabilidad",
-title("Distribucion normal (media = 76, desv = 5)"),
 pch=16,
 col = "cornflowerblue")
 
@@ -212,7 +231,7 @@ polygon(c(longitudX[longitudX >= 92 ], 92),c(probabilidadDN[longitudX >= 92], 0)
         col = "slateblue1",
         border = 1)
 ```
-Respuesta: El numero de habitantes que superan previsiblemente los 92 años es de:  0.1349898
+Respuesta: El numero de habitantes que superan previsiblemente los 92 años es de 0.1349898
 
 b. ¿Cuántos vivirán menos de 55 años o más de 75 años?
 
@@ -224,10 +243,9 @@ longitud<-c(50:100)
 probabilidad<- dnorm(longitud,media, desv)
 
 #grafica
-plot(longitud,probabilidad,
+plot(longitud,probabilidad,main="Distribucion normal (media = 76, desv = 5)",
 xlab="Edad de los habitantes",
 ylab="Probabilidad",
-title("Distribucion normal (media = 76, desv = 5)"),
 pch=16,
 col = "cornflowerblue")
 
@@ -238,6 +256,5 @@ polygon(c(longitud[longitud >= 75 ], 75),c(probabilidad[longitud >= 75], 0),
 polygon(c(longitud[longitud <= 55 ], 55),c(probabilidad[longitud <= 55], 0),
         col = "slateblue1",
         border = 1)
-
 ```
-Respuesta: El numero de habitantes que viviran menos de 55 años o más de 75 años es de: 65.54351
+Respuesta: El numero de habitantes que viviran menos de 55 años o más de 75 años es de 65.54351
